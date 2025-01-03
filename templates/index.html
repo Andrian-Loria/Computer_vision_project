@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Gesture Volume Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        #video {
+            width: 640px; /* Adjust the width of the camera feed */
+            height: auto;
+            border: 1.5px solid #000;
+        }
+        #volume-box {
+            font-size: 24px;
+            padding: 10px;
+            border: 2px solid #000;
+            background-color: #fff;
+            text-align: center;
+            width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="video" src="http://localhost:5000/video_feed" />
+        
+        <div id="volume-box">
+            Volume: <span id="volume-percent">50%</span>
+        </div>
+    </div>
+
+    <script>
+        // Function to update the volume percentage on the page
+        function updateVolume() {
+            fetch('/get_volume')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('volume-percent').textContent = `${data.volume}%`;
+                });
+        }
+
+        // Update the volume every 1.5 second
+        setInterval(updateVolume, 1500);
+    </script>
+</body>
+</html>
